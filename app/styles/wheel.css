@@ -1,0 +1,15 @@
+.parent-container {
+  width: 100px;
+  height: 100px;
+  margin-left: 39%;
+  margin-top: -25px;
+  > div {
+    height: 100%;
+    width: 100%;
+    max-height: unset;
+    max-width: unset;
+  }
+  img[alt~="roulette-static"] {
+    width: 0;
+  }
+}
