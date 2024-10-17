@@ -349,7 +349,7 @@ export default function DisplayPage() {
                                   return <span key={index}>&nbsp;{style.name},</span>;
                                 else
                                   return (
-                                    <span key={index}>
+                                    <span>
                                       &nbsp;and &nbsp;{style.name}&nbsp;Styles
                                     </span>
                                   );
@@ -360,9 +360,9 @@ export default function DisplayPage() {
                               Example of {w.style[0].name} and {w.style[1].name}{" "}
                               Styles
                             </span>
-                          ) : (
+                          ) : w.style.length === 1 ? (
                             <span>Example of {w.style[0].name} Style</span>
-                          )
+                          ) : (<span></span>)
                         ) : (
                           <span>Example of {style} Style</span>
                         )}

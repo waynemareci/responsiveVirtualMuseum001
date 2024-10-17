@@ -114,6 +114,7 @@ const neoSchema = new Neo4jGraphQL({
   resolvers,
   driver,
   debug: true,
+  /*
   features: {
     authorization: {
       //key: "JwdnwNN2BDv1BGGJRn1jM420XZA8Z4Yn"
@@ -124,6 +125,7 @@ const neoSchema = new Neo4jGraphQL({
 
     },
   },
+  */
 
 });
 
