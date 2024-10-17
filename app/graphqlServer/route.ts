@@ -10,7 +10,6 @@ const typeDefs = `
     creationDate: Date
     width: Int
     height: Int
-    url: String!
     fileName: String!
     title: String!
     medium: String!
@@ -22,7 +21,8 @@ const typeDefs = `
     artistId: ID!
     name: String!
     nationality: String
-    birthYear: Date!
+    birthday: DateTime!
+    deathday: DateTime!
     birthPlace: Point!
     works: [WorkOfArt!]! @relationship(type: "CREATED", direction: OUT)
     styles: [Style!]! @relationship(type: "ASSOCIATED_WITH", direction: OUT)

@@ -53,6 +53,7 @@ import Image from "next/image";
 import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 
 import { gql, useQuery } from "@apollo/client";
+import { Integer } from "neo4j-driver";
 
 interface Style {
   name: string;
@@ -70,7 +71,6 @@ interface WorkOfArt {
   title: String;
   creator: Artist;
   style: Style;
-  url: String;
 }
 
 interface WorkOfArtData {
@@ -86,30 +86,6 @@ const WhiteLink = styled.a`
 
 var savedData: WorkOfArtData;
 
-const sliderImageUrl = [
-  //First image url
-  {
-    url: "https://i2.wp.com/www.geeksaresexy.net/wp-content/uploads/2020/04/movie1.jpg?resize=600%2C892&ssl=1",
-  },
-  {
-    url: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/best-kids-movies-2020-call-of-the-wild-1579042974.jpg?crop=0.9760858955588091xw:1xh;center,top&resize=480:*",
-  },
-  //Second image url
-  {
-    url: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/best-movies-for-kids-2020-sonic-the-hedgehog-1571173983.jpg?crop=0.9871668311944719xw:1xh;center,top&resize=480:*",
-  },
-  //Third image url
-  {
-    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQS82ET2bq9oTNwPOL8gqyoLoLfeqJJJWJmKQ&usqp=CAU",
-  },
-
-  //Fourth image url
-
-  {
-    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTdvuww0JDC7nFRxiFL6yFiAxRJgM-1tvJTxA&usqp=CAU",
-  },
-];
-
 var imageUrl: Array<{ url: string }> = [];
 
 const WORKS_BY_ARTIST_QUERY = gql`
@@ -123,7 +99,11 @@ const WORKS_BY_ARTIST_QUERY = gql`
       style {
         name
       }
-      url
+      creator {
+        name
+        birthday
+        deathday
+      }
     }
   }
 `;
@@ -136,10 +116,11 @@ const WORKS_BY_STYLE_QUERY = gql`
       height
       creator {
         name
+        birthday
+        deathday
       }
       creationDate
       fileName
-      url
     }
   }
 `;
@@ -184,12 +165,16 @@ export default function DisplayPage() {
   });
   if (loading) console.log("Loading Works data ...");
   if (error) console.log(`Works useQuery error: ${error.message}`);
-
-  imageUrl = sliderImageUrl;
-  console.log("in StyleDisplay(); data is " + JSON.stringify(data));
   console.log(
-    "in StyleDisplay(); data.workOfArts is " + JSON.stringify(data?.workOfArts)
+    "displaying " + styleOrArtist + "; data is " + JSON.stringify(data)
   );
+  console.log("data.workOfArts is " + JSON.stringify(data?.workOfArts));
+
+  function yearToString(year: number): String {
+    if (year <= 0) {
+      return (year).toString().replace("-", "").concat(" BC");
+    } else return year.toString();
+  }
 
   /*
   const [domLoaded, setDomLoaded] = useState(false);
@@ -297,27 +282,39 @@ export default function DisplayPage() {
                 itemClass="carousel-item-padding-40-px"
               >
                 {data.workOfArts.map((w: any, index: any) => {
+                  var bd = yearToString((new Date(w.creator[0].birthday).getFullYear()));
+                  var dd = yearToString((new Date(w.creator[0].deathday).getFullYear()));
+                  var cd = yearToString((new Date(w.creationDate).getFullYear()));
+
                   return (
-                    <div key={index} style={{ marginTop: "0", marginBottom: "0" }}>
+                    <div
+                      key={index}
+                      style={{ marginTop: "0", marginBottom: "0" }}
+                    >
                       <h2 className="fw-bold text-center">{w.title}</h2>
 
-                      {styleOrArtist === "artist" ? (
-                        <h6 className="fw-bold text-center">
-                          {artist} (Dates)
-                        </h6>
-                      ) : (
-                        <h6 className="fw-bold text-center">
-                          {w.creator[0].name} (Dates)
-                        </h6>
-                      )}
+                      <h6 className="fw-bold text-center">
+                        {w.creationDate !== null ? (
+                          <span>
+                            Created in {cd} by {w.creator[0].name}{" "}
+                            ({bd} - {dd}){" "}
+                          </span>
+                        ) : (
+                          <span>
+                            Artist: {w.creator[0].name} ({bd} -{" "}
+                            {dd}) Creation date unknown
+                          </span>
+                        )}
+                      </h6>
 
                       <div
                         style={{
                           display: "flex",
-                          height: "100vh",
+                          height: "75vh",
                           position: "relative",
                           alignItems: "center",
                           justifyContent: "center",
+                          marginBottom: "10px",
                         }}
                         className="slider"
                         key={index}
@@ -337,16 +334,38 @@ export default function DisplayPage() {
                             //width: "100%",
                           }}
                           fill={true}
-                          //src={imageUrl.url}
                           //src={`http://192.168.2.45/wikiartImages/${w.fileName}.jpg`}
                           src={`https://virtualmusem.s3.amazonaws.com/${w.fileName}.jpg`}
-                          //src={`https://uploads3.wikiart.org/images/marc-chagall/untitled-1.jpg!Large.jpg`}
-                          //src={`${w.url}`}
                         />
                       </div>
-                      <h6 className="fw-bold text-center">Created in 1900</h6>
                       <h6 className="fw-bold text-center">
-                        Example of [ ] Style(s)
+                        {styleOrArtist === "artist" ? (
+                          w.style.length > 2 ? (
+                            <span>
+                              Example of
+                              {w.style.map((style: any, index: any) => {
+                                //console.log("style name: " + style.name)
+                                if (index != w.style.length - 1)
+                                  return <span key={index}>&nbsp;{style.name},</span>;
+                                else
+                                  return (
+                                    <span key={index}>
+                                      &nbsp;and &nbsp;{style.name}&nbsp;Styles
+                                    </span>
+                                  );
+                              })}
+                            </span>
+                          ) : w.style.length > 1 ? (
+                            <span>
+                              Example of {w.style[0].name} and {w.style[1].name}{" "}
+                              Styles
+                            </span>
+                          ) : (
+                            <span>Example of {w.style[0].name} Style</span>
+                          )
+                        ) : (
+                          <span>Example of {style} Style</span>
+                        )}
                       </h6>
                     </div>
                   );
