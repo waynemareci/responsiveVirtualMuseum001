@@ -349,7 +349,7 @@ export default function DisplayPage() {
                                   return <span key={index}>&nbsp;{style.name},</span>;
                                 else
                                   return (
-                                    <span>
+                                    <span key={index}>
                                       &nbsp;and &nbsp;{style.name}&nbsp;Styles
                                     </span>
                                   );
