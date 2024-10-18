@@ -342,29 +342,27 @@ export default function DisplayPage() {
                         {styleOrArtist === "artist" ? (
                           w.style.length > 2 ? (
                             <span>
-                              Example of
+                              Style:
                               {w.style.map((style: any, index: any) => {
-                                //console.log("style name: " + style.name)
                                 if (index != w.style.length - 1)
                                   return <span key={index}>&nbsp;{style.name},</span>;
                                 else
                                   return (
                                     <span key={index}>
-                                      &nbsp;and &nbsp;{style.name}&nbsp;Styles
+                                      &nbsp;and &nbsp;{style.name}
                                     </span>
                                   );
                               })}
                             </span>
                           ) : w.style.length > 1 ? (
                             <span>
-                              Example of {w.style[0].name} and {w.style[1].name}{" "}
-                              Styles
+                              Sytles: {w.style[0].name} and {w.style[1].name}{" "}
                             </span>
                           ) : w.style.length === 1 ? (
-                            <span>Example of {w.style[0].name} Style</span>
+                            <span>Style: {w.style[0].name}</span>
                           ) : (<span></span>)
                         ) : (
-                          <span>Example of {style} Style</span>
+                          <span>Style: {style}</span>
                         )}
                       </h6>
                     </div>
