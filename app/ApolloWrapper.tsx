@@ -14,6 +14,7 @@ import { stringify } from "querystring";
 export const starredVar = makeVar([]);
 
 const AppWithApollo = ({ children }: React.PropsWithChildren) => {
+ /*
   const { getAccessTokenSilently, isAuthenticated, isLoading, error } =
     useAuth0();
 
@@ -45,14 +46,15 @@ const AppWithApollo = ({ children }: React.PropsWithChildren) => {
         },
       };
     }
-  });
+  });*/
 
   function makeClient() {
     const httpLink = new HttpLink({
       uri: "/graphqlServer",
     });
     return new ApolloClient({
-      link: authLink.concat(httpLink),
+      //link: authLink.concat(httpLink),
+      link: httpLink,
       cache: new InMemoryCache({
         typePolicies: {
           Business: {
@@ -87,6 +89,7 @@ export function ApolloWrapper({ children }: React.PropsWithChildren) {
     <div>
       {" "}
       {isClient ? (
+        /*
         <Auth0Provider
           domain={process.env.REACT_APP_AUTH0_DOMAIN as string}
           clientId={process.env.REACT_APP_AUTH0_CLIENT_ID as string}
@@ -99,9 +102,9 @@ export function ApolloWrapper({ children }: React.PropsWithChildren) {
             //redirect_uri: "https://first-vercel-attempt.vercel.app/",
             audience: "https://mareci.com",
           }}
-        >
+        >*/
           <AppWithApollo>{children}</AppWithApollo>
-        </Auth0Provider>
+        //</Auth0Provider>
       ) : (
         <></>
       )}{" "}

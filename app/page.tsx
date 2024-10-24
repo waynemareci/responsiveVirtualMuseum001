@@ -92,7 +92,7 @@ const GET_ARTISTS_QUERY = gql`
 
 const GET_STYLES_QUERY = gql`
   query AllStyles {
-    styles {
+    styles(options: {sort: {name: ASC}}) {
       name
     }
   }

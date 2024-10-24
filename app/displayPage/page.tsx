@@ -320,6 +320,7 @@ export default function DisplayPage() {
                         key={index}
                       >
                         <Image
+                          unoptimized
                           alt="image"
                           //width={w.width}
                           //height={w.height}
@@ -342,7 +343,7 @@ export default function DisplayPage() {
                         {styleOrArtist === "artist" ? (
                           w.style.length > 2 ? (
                             <span>
-                              Style:
+                              Styles:
                               {w.style.map((style: any, index: any) => {
                                 if (index != w.style.length - 1)
                                   return <span key={index}>&nbsp;{style.name},</span>;
