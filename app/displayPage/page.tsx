@@ -110,7 +110,10 @@ const WORKS_BY_ARTIST_QUERY = gql`
 
 const WORKS_BY_STYLE_QUERY = gql`
   query WorksByStyle($style: String!) {
-    workOfArts(where: { style_SOME: { name: $style } }) {
+    workOfArts(
+      options: { sort: [{ creationDate: ASC }] }
+      where: { style_SOME: { name: $style } }
+    ) {
       title
       width
       height
@@ -172,7 +175,9 @@ export default function DisplayPage() {
 
   function yearToString(year: number): String {
     if (year <= 0) {
-      return (year).toString().replace("-", "").concat(" BC");
+      return year.toString().replace("-", "").concat(" BC");
+    } else if (year > 2024) {
+      return "";
     } else return year.toString();
   }
 
@@ -282,9 +287,13 @@ export default function DisplayPage() {
                 itemClass="carousel-item-padding-40-px"
               >
                 {data.workOfArts.map((w: any, index: any) => {
-                  var bd = yearToString((new Date(w.creator[0].birthday).getFullYear()));
-                  var dd = yearToString((new Date(w.creator[0].deathday).getFullYear()));
-                  var cd = yearToString((new Date(w.creationDate).getFullYear()));
+                  var bd = yearToString(
+                    new Date(w.creator[0].birthday).getFullYear()
+                  );
+                  var dd = yearToString(
+                    new Date(w.creator[0].deathday).getFullYear()
+                  );
+                  var cd = yearToString(new Date(w.creationDate).getFullYear());
 
                   return (
                     <div
@@ -296,13 +305,12 @@ export default function DisplayPage() {
                       <h6 className="fw-bold text-center">
                         {w.creationDate !== null ? (
                           <span>
-                            Created in {cd} by {w.creator[0].name}{" "}
-                            ({bd} - {dd}){" "}
+                            Created in {cd} by {w.creator[0].name} ({bd} - {dd}){" "}
                           </span>
                         ) : (
                           <span>
-                            Artist: {w.creator[0].name} ({bd} -{" "}
-                            {dd}) Creation date unknown
+                            Artist: {w.creator[0].name} ({bd} - {dd}) Creation
+                            date unknown
                           </span>
                         )}
                       </h6>
@@ -346,7 +354,9 @@ export default function DisplayPage() {
                               Styles:
                               {w.style.map((style: any, index: any) => {
                                 if (index != w.style.length - 1)
-                                  return <span key={index}>&nbsp;{style.name},</span>;
+                                  return (
+                                    <span key={index}>&nbsp;{style.name},</span>
+                                  );
                                 else
                                   return (
                                     <span key={index}>
@@ -357,11 +367,13 @@ export default function DisplayPage() {
                             </span>
                           ) : w.style.length > 1 ? (
                             <span>
-                              Sytles: {w.style[0].name} and {w.style[1].name}{" "}
+                              Styles: {w.style[0].name} and {w.style[1].name}{" "}
                             </span>
                           ) : w.style.length === 1 ? (
                             <span>Style: {w.style[0].name}</span>
-                          ) : (<span></span>)
+                          ) : (
+                            <span></span>
+                          )
                         ) : (
                           <span>Style: {style}</span>
                         )}
