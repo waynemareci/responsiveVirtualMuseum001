@@ -168,10 +168,8 @@ export default function DisplayPage() {
   });
   if (loading) console.log("Loading Works data ...");
   if (error) console.log(`Works useQuery error: ${error.message}`);
-  console.log(
-    "displaying " + styleOrArtist + "; data is " + JSON.stringify(data)
-  );
-  console.log("data.workOfArts is " + JSON.stringify(data?.workOfArts));
+  //console.log("displaying " + styleOrArtist + "; data is " + JSON.stringify(data));
+  //console.log("data.workOfArts is " + JSON.stringify(data?.workOfArts));
 
   function yearToString(year: number): String {
     if (year <= 0) {
@@ -268,7 +266,7 @@ export default function DisplayPage() {
               <Carousel
                 className="h-100"
                 responsive={carouselResponsive}
-                swipeable={false}
+                swipeable={true}
                 draggable={false}
                 centerMode={false}
                 //showDots={true}
@@ -343,7 +341,6 @@ export default function DisplayPage() {
                             //width: "100%",
                           }}
                           fill={true}
-                          //src={`http://192.168.2.45/wikiartImages/${w.fileName}.jpg`}
                           src={`https://virtualmusem.s3.amazonaws.com/${w.fileName}.jpg`}
                         />
                       </div>

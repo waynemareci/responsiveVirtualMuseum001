@@ -40,9 +40,26 @@ import {
   MDBTypography,
 } from "mdb-react-ui-kit";
 */
-import { MDBBtn, MDBContainer, MDBFooter, MDBIcon } from "mdb-react-ui-kit";
+import {
+  MDBBtn,
+  MDBContainer,
+  MDBFooter,
+  MDBRow,
+  MDBIcon,
+  MDBCol,
+  MDBTextArea,
+} from "mdb-react-ui-kit";
 import Select from "react-select";
 import Link from "next/link";
+
+import Image from "next/image";
+import brandIcon from "../public/exploragraph3.png";
+import { Montserrat } from 'next/font/google'
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  display: 'swap'
+})
+
 //import dynamic from "next/dynamic";
 /*
 const Wheel = dynamic(
@@ -92,7 +109,7 @@ const GET_ARTISTS_QUERY = gql`
 
 const GET_STYLES_QUERY = gql`
   query AllStyles {
-    styles(options: {sort: {name: ASC}}) {
+    styles(options: { sort: { name: ASC } }) {
       name
     }
   }
@@ -102,22 +119,37 @@ export default function Home() {
   const [selectedArtist, setSelectedArtist] = useState("");
   const [selectedStyle, setSelectedStyle] = useState("");
 
-  var artistOptionsForRandom:Artist[] = [];
-  var styleOptionsForRandom:Style[] = [];
+  var artistOptionsForRandom: Artist[] = [];
+  var styleOptionsForRandom: Style[] = [];
 
   function RandomChoice() {
     var randomBoolean = Math.random() < 0.5;
     if (randomBoolean) {
-      console.log("I've got " + styleOptionsForRandom.length + " styles");
-      const randomStyle = Math.floor(Math.random() * (styleOptionsForRandom.length + 1))
-      //router.push(`/displayPage?style=Art Deco`);
-      router.push(`/displayPage?style=${styleOptionsForRandom[randomStyle].name}`);
+      const randomStyle = Math.floor(
+        Math.random() * (styleOptionsForRandom.length + 1)
+      );
+      console.log(
+        "I've got " +
+          styleOptionsForRandom.length +
+          " styles; choosing number " +
+          randomStyle
+      );
+      router.push(
+        `/displayPage?style=${styleOptionsForRandom[randomStyle].name}`
+      );
     } else {
-      console.log("I've got " + artistOptionsForRandom.length + " artists");
-      const randomArtist = Math.floor(Math.random() * (artistOptionsForRandom.length + 1))
-      //router.push(`/displayPage?artist=Picasso Pablo`);
-      router.push(`/displayPage?artist=${artistOptionsForRandom[randomArtist].name}`);
-
+      const randomArtist = Math.floor(
+        Math.random() * (artistOptionsForRandom.length + 1)
+      );
+      console.log(
+        "I've got " +
+          artistOptionsForRandom.length +
+          " artists; choosong number " +
+          randomArtist
+      );
+      router.push(
+        `/displayPage?artist=${artistOptionsForRandom[randomArtist].name}`
+      );
     }
   }
 
@@ -153,7 +185,7 @@ export default function Home() {
       label: style.name,
     }));
     styleOptionsForRandom = data.styles;
-    console.log("stringified styleSoptions:" + JSON.stringify(styleOptions));
+    //console.log("stringified styleSoptions:" + JSON.stringify(styleOptions));
 
     return (
       <Select
@@ -184,7 +216,7 @@ export default function Home() {
           data-mdb-slim-collapsed="true"
           data-mdb-content="#slim-content"
           style={{
-            top: "115px",
+            top: "128px",
             width: "70px",
             height: "100vh",
             position: "fixed",
@@ -240,12 +272,14 @@ export default function Home() {
           fluid
           className="fixed-top mt-4 mb-1"
         >
-          <h1 className="display-5 fw-bold text-center">
+          <h2 style={{ fontSize: "35px" }} className="fw-bold text-center">
+            Use a Graph Database to
+            <br />
             Explore The World&apos;s Visual Art
-          </h1>
+          </h2>
         </MDBContainer>
       </header>
-      <main style={{ position: "relative", top: "90px" }}>
+      <main style={{ position: "relative", top: "105px" }}>
         <MDBContainer className="container py-4">
           <div className="row g-0 mb-5">
             <div className="col-lg-6 col-md-12 mb-4 mb-lg-0">
@@ -399,54 +433,71 @@ export default function Home() {
         className="text-center"
       >
         <MDBContainer className="py-4">
-          <MDBBtn
-            href="#!"
-            style={{ backgroundColor: "#3b5998" }}
-            floating
-            className="m-2"
-          >
-            <MDBIcon fab icon="facebook-f" />
-          </MDBBtn>
-          <MDBBtn
-            href="#!"
-            style={{ backgroundColor: "#55acee" }}
-            floating
-            className="m-2"
-          >
-            <MDBIcon fab icon="twitter" />
-          </MDBBtn>
-          <MDBBtn
-            href="#!"
-            style={{ backgroundColor: "#dd4b39" }}
-            floating
-            className="m-2"
-          >
-            <MDBIcon fab icon="google" />
-          </MDBBtn>
-          <MDBBtn
-            href="#!"
-            style={{ backgroundColor: "#ac2bac" }}
-            floating
-            className="m-2"
-          >
-            <MDBIcon fab icon="instagram" />
-          </MDBBtn>
-          <MDBBtn
-            href="#!"
-            style={{ backgroundColor: "#0082ca" }}
-            floating
-            className="m-2"
-          >
-            <MDBIcon fab icon="linkedin-in" />
-          </MDBBtn>
-          <MDBBtn
-            href="#!"
-            style={{ backgroundColor: "#222222" }}
-            floating
-            className="m-2"
-          >
-            <MDBIcon fab icon="github" />
-          </MDBBtn>
+          <MDBRow>
+            <MDBCol size='1'>
+              <Image
+                style={{ marginBottom: "0px" }}
+                unoptimized
+                alt="brandIcon"
+                width={50}
+                height={50}
+                src={brandIcon}
+              />
+            </MDBCol>
+            <MDBCol size='5'>
+              <h1 style={{fontWeight: "bolder"}} className={montserrat.className}>exploragraph</h1>
+            </MDBCol>
+            <MDBCol size='5'>
+              <MDBBtn
+                href="#!"
+                style={{ backgroundColor: "#3b5998" }}
+                floating
+                className="m-2"
+              >
+                <MDBIcon fab size="2x" icon="facebook-f" />
+              </MDBBtn>
+              <MDBBtn
+                href="#!"
+                style={{ backgroundColor: "black" }}
+                floating
+                className="m-2"
+              >
+                <span className="[&>svg]:h-10 [&>svg]:w-6">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="-80 0 500 512"
+                  >
+                    <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" />
+                  </svg>
+                </span>
+              </MDBBtn>
+              <MDBBtn
+                href="#!"
+                style={{ backgroundColor: "#ac2bac" }}
+                floating
+                className="m-2"
+              >
+                <MDBIcon fab size="2x" icon="instagram" />
+              </MDBBtn>
+              <MDBBtn
+                href="#!"
+                style={{ backgroundColor: "#0082ca" }}
+                floating
+                className="m-2"
+              >
+                <MDBIcon fab size="2x" icon="linkedin-in" />
+              </MDBBtn>
+              <MDBBtn
+                href="#!"
+                style={{ backgroundColor: "#222222" }}
+                floating
+                className="m-2"
+              >
+                <MDBIcon fab size="2x" icon="github" />
+              </MDBBtn>
+            </MDBCol>
+          </MDBRow>
         </MDBContainer>
         <div className="text-center p-3" style={{ backgroundColor: "black" }}>
           © 2024 Wayne Mareci
