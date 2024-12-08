@@ -277,7 +277,7 @@ export default function DisplayPage() {
                 customTransition="all .5"
                 transitionDuration={500}
                 containerClass="carousel-container"
-                removeArrowOnDeviceType={["tablet", "mobile"]}
+                removeArrowOnDeviceType={["mobile"]}
                 //autoPlay={this.props.deviceType !== "mobile" ? true : false}
                 //deviceType={this.props.deviceType}
 
