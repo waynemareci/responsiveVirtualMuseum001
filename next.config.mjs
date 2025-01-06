@@ -23,7 +23,7 @@ const nextConfig = {
         port: "",
         pathname: "/images/**",
       },
-      
+
       {
         protocol: "http",
         hostname: "192.168.2.45",
@@ -32,9 +32,8 @@ const nextConfig = {
       },
     ],
   },
-  experimental: {
-    serverComponentsExternalPackages: ["graphql"],
-  },
+  serverExternalPackages: ["graphql"],
+
   env: {
     REACT_APP_AUTH0_DOMAIN: "dev-spxf3pmvngdhjouv.us.auth0.com",
     REACT_APP_AUTH0_CLIENT_ID: "YlqUnmoHJ1EpT8zgrt7aKPVYJ2fbRZGp",
