@@ -5,9 +5,7 @@ import mapboxgl from "mapbox-gl";
 import { MDBRange } from "mdb-react-ui-kit";
 
 export default function Globe() {
-  //const Globe: React.FC = () => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
-  //const globe = useRef<HTMLDialogElement>(null)
   const [map, setMap] = useState(null);
 
   useEffect(() => {
@@ -85,7 +83,7 @@ export default function Globe() {
     <div>
       <div className="pb-3">
         <p className="text-center">
-          Then&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Now
+          Then&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Now
         </p>
         <MDBRange
           style={{ paddingLeft: "20px", paddingRight: "20px" }}
@@ -96,12 +94,10 @@ export default function Globe() {
         />
       </div>
       <div
-        style={{ marginTop: "-10px" }}
+        style={{ marginTop: "-10px", height: "400px"}}
         ref={mapContainerRef}
         className="map-container"
       ></div>
     </div>
   );
 }
-
-//export default Globe

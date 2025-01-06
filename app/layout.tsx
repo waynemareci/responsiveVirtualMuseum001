@@ -4,7 +4,7 @@ import "./globals.css";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { ApolloWrapper } from "./ApolloWrapper";
-import { Montserrat } from 'next/font/google'
+import { Montserrat } from "next/font/google";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -17,9 +17,9 @@ const geistMono = localFont({
   weight: "100 900",
 });
 const montserrat = Montserrat({
-  subsets: ['latin'],
-  display: 'swap'
-})
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Virtual Museum",
@@ -33,6 +33,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={montserrat.className}>
+      <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=n0"
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

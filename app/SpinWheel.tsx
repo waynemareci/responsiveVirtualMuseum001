@@ -205,7 +205,6 @@ const SpinWheel: React.FC<ISpinWheelProps> = ({
         <div
           style={{
             textAlign: "center",
-            padding: "20px",
             fontWeight: "bold",
             fontSize: "1.5em",
             fontFamily: fontFamily,

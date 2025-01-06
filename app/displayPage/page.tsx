@@ -191,77 +191,14 @@ export default function DisplayPage() {
   } else */ {
     return (
       <>
-        <header>
-          {/* Sidenav */}
-
-          <nav
-            id="sidenav-4"
-            className="sidenav bg-glass opacity-100"
-            data-mdb-color="light"
-            data-mdb-mode="side"
-            data-mdb-slim="true"
-            data-mdb-slim-collapsed="true"
-            data-mdb-content="#slim-content"
-            style={{
-              top: "115px",
-              width: "70px",
-              height: "100vh",
-              position: "fixed",
-              transition: "0.3s linear",
-              transform: "translateX(0%)",
-            }}
-          >
-            <div className="sidenav-item mb-2">
-              <a
-                id="slim-toggler"
-                className="sidenav-link d-flex justify-content-center border-bottom ripple-surface ripple-surface-light"
-              >
-                <i className="fas fa-chevron-circle-right"></i>
-              </a>
-            </div>
-
-            <ul className="sidenav-menu">
-              <li className="sidenav-item">
-                <a className="sidenav-link">
-                  <i className="fas fa-chart-area fa-fw me-3"></i>
-                  <span data-mdb-slim="false">Website traffic</span>
-                </a>
-              </li>
-              <li className="sidenav-item">
-                <a className="sidenav-link">
-                  <i className="fas fa-chart-line fa-fw me-3"></i>
-                  <span data-mdb-slim="false">Analytics</span>
-                </a>
-              </li>
-              <li className="sidenav-item">
-                <a className="sidenav-link">
-                  <i className="fas fa-chart-pie fa-fw me-3"></i>
-                  <span data-mdb-slim="false">SEO</span>
-                </a>
-              </li>
-              <li className="sidenav-item">
-                <a className="sidenav-link">
-                  <i className="fas fa-money-bill fa-fw me-3"></i>
-                  <span data-mdb-slim="false">Sales</span>
-                </a>
-              </li>
-              <li className="sidenav-item">
-                <a className="sidenav-link">
-                  <i className="fas fa-users fa-fw me-3"></i>
-                  <span data-mdb-slim="false">Users</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </header>
         {loading ? (
           <p>Loading . . .</p>
         ) : (
           <main style={{ position: "relative", top: "0px" }}>
-            <MDBContainer
+            <div
               style={{ position: "relative" }}
-              fluid
-              className="fixed-top mt-4 mb-1"
+              /*fluid*/
+              className="container fixed-top mt-4 mb-1"
             >
               <Carousel
                 className="h-100"
@@ -379,7 +316,7 @@ export default function DisplayPage() {
                   );
                 })}
               </Carousel>
-            </MDBContainer>
+            </div>
           </main>
         )}
         <MDBFooter

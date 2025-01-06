@@ -190,7 +190,7 @@ export default function Home() {
 
     return (
       <Select
-        name={"styleSelect"}
+        name={"sytleSelect"}
         placeholder={"Search..."}
         unstyled
         options={styleOptions}
@@ -205,8 +205,9 @@ export default function Home() {
   const router = useRouter();
   return (
     <>
-      <header>
-        <div style={{borderTopWidth: "20px", borderImage: "linear-gradient(to right,#35507E,#000) 1" }} className="container fixed-top mt-0 pt-0">
+  
+  <header>
+        <MDBContainer className="fixed-top mt-3" style={{ zIndex: -1 }}>
           <MDBRow>
             <MDBCol>
               <h2 className="fw-bold text-center">
@@ -216,13 +217,13 @@ export default function Home() {
               </h2>
             </MDBCol>
           </MDBRow>
-        </div>
+        </MDBContainer>
       </header>
 
       <main /*style={{ position: "relative", left: "75px" }}*/>
         {/* Sidenav */}
 
-        <nav
+        <MDBNavbar
           id="sidenav-4"
           className="d-none d-sm-block sidenav bg-glass opacity-100"
           data-mdb-color="light"
@@ -232,7 +233,8 @@ export default function Home() {
           data-mdb-content="#slim-content"
           style={{
             top: "128px",
-            height: "80vh",
+            width: "70px",
+            height: "100vh",
             position: "fixed",
             transition: "0.3s linear",
             transform: "translateX(0%)",
@@ -280,11 +282,11 @@ export default function Home() {
               </a>
             </li>
           </ul>
-        </nav>
+        </MDBNavbar>
 
-        <MDBContainer className="pt-4 mt-20" style={{ zIndex: -1 }}>
+        <MDBContainer className="py-4 mt-20">
           <div className="row g-0">
-            <div className="col-lg-6 col-md-12 mb-4 order-2 order-sm-1">
+            <div className="col-lg-6 col-md-12 mb-4">
               {/* Card */}
               <div className="bg-glass shadow-4-strong h-75 mt-6">
                 {/* Card header */}
@@ -303,14 +305,14 @@ export default function Home() {
               {/* Card */}
             </div>
 
-            <div className="d-grid col-lg-6 mb-4 mb-lg-0 order-1 order-sm-2">
-              <div className="row ms-sm-3 g-0 mb-3 order-2 order-sm-1">
-                {/* Choose an artist */}
+            <div className="col-lg-6 mb-4 mb-lg-0">
+              <div className="row g-0 mb-5">
+                {/* Card */}
                 <div
                   style={{
                     borderColor: "#26395A",
                     borderStyle: "none none none solid",
-                    zIndex: 2,
+                    borderWidth: "25px",
                   }}
                   className="bg-glass shadow-4-strong mt-4"
                 >
@@ -332,13 +334,13 @@ export default function Home() {
                 </div>
                 {/* Card */}
               </div>
-              <div className="row g-0 mb-3 ms-sm-3 order-3 order-sm-2">
-                {/* Choose a style */}
+              <div className="row g-0 mb-5">
+                {/* Card */}
                 <div
                   style={{
                     borderColor: "#26395A",
                     borderStyle: "none none none solid",
-                    zIndex: 1,
+                    borderWidth: "25px",
                   }}
                   className="bg-glass shadow-4-strong"
                 >
@@ -362,12 +364,13 @@ export default function Home() {
                 </div>
                 {/* Card */}
               </div>
-              <div className="row g-0 mt-sm-0 mt-2 ms-sm-3 mb-sm-4 mb-0 order-1 order-sm-3">
-                {/* Spinner */}
+              <div className="row g-0 mb-5">
+                {/* Card */}
                 <div
                   style={{
                     borderColor: "#26395A",
                     borderStyle: "none none none solid",
+                    borderWidth: "25px",
                   }}
                   className="bg-glass shadow-4-strong"
                 >
@@ -386,10 +389,8 @@ export default function Home() {
 
                   {/* Card body */}
                   <div
-                    className=""
                     style={{
-                      display: "flex",
-                      justifyContent: "center",
+                      marginLeft: "40%",
                       marginTop: "-10px",
                       marginBottom: "40px",
                     }}
@@ -397,6 +398,7 @@ export default function Home() {
                     <SpinWheel
                       segments={segments}
                       onFinished={() => {
+                        //router.push("/displayPage");
                         RandomChoice();
                       }}
                     />
@@ -409,7 +411,10 @@ export default function Home() {
           </div>
         </MDBContainer>
       </main>
-      <MDBFooter style={{ position: "relative" }} className="text-center">
+      <MDBFooter
+        style={{ position: "relative", marginTop: "25px" }}
+        className="text-center"
+      >
         <MDBContainer className="py-4">
           <MDBRow>
             <MDBCol size="1">
