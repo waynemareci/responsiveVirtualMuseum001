@@ -176,6 +176,13 @@ export default function Home() {
         options={artistOptions}
         unstyled
         isSearchable={true}
+        onMenuClose={() => {
+          document.getElementById("spinner")?.classList.remove("invisible");
+          document.getElementById("styleChoice")?.classList.remove("invisible");
+          document
+            .getElementById("timeAndPlaceChoice")
+            ?.classList.remove("invisible");
+        }}
         onBlur={() => {
           document.getElementById("spinner")?.classList.remove("invisible");
           document.getElementById("styleChoice")?.classList.remove("invisible");
@@ -183,7 +190,7 @@ export default function Home() {
             .getElementById("timeAndPlaceChoice")
             ?.classList.remove("invisible");
         }}
-        onFocus={() => {
+        onMenuOpen={() => {
           if (window.matchMedia("(min-width: 576px)").matches) {
             document.getElementById("spinner")?.classList.add("invisible");
             document.getElementById("styleChoice")?.classList.add("invisible");
@@ -199,7 +206,6 @@ export default function Home() {
             router.push(`/displayPage?artist=${choice.value}`);
           }
         }}
-        
       ></Select>
     );
   }
@@ -230,7 +236,14 @@ export default function Home() {
             .getElementById("timeAndPlaceChoice")
             ?.classList.remove("invisible");
         }}
-        onFocus={() => {
+        onMenuClose={() => {
+          document.getElementById("spinner")?.classList.remove("invisible");
+          document.getElementById("styleChoice")?.classList.remove("invisible");
+          document
+            .getElementById("timeAndPlaceChoice")
+            ?.classList.remove("invisible");
+        }}
+        onMenuOpen={() => {
           if (window.matchMedia("(min-width: 576px)").matches) {
             document.getElementById("spinner")?.classList.add("invisible");
           } else {
