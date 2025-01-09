@@ -67,7 +67,7 @@ const typeDefs = `
 const resolvers = {
 
   WorkOfArt: {
-    fileName: (obj:any, args:any, context:any, info:any) => {
+    fileName: (obj: { fileName: string }) => {
       return obj.fileName.toString()
     },
     /*
@@ -79,16 +79,15 @@ const resolvers = {
     }
         */
   },
-  
+
   Business: {
-    waitTime: (obj: any, args: any, context: any, info: any) => {
-     // waitTime: () => {
+    waitTime: () => {
       const options = [0, 5, 10, 15, 30, 45];
       return options[Math.floor(Math.random() * options.length)];
     },
 
   },
-  
+
 };
 
 // Read our Neo4j connection credentials from environment variables (see .env.local)
@@ -96,17 +95,17 @@ const { NEO4J_URI, NEO4J_USERNAME, NEO4J_PASSWORD } = process.env;
 
 // Create a Neo4j driver instance to connect to Neo4j AuraDB
 const driver = neo4j.driver(
-  
-  
+
+
   //aura
   //"neo4j+s://25a4f391.databases.neo4j.io",
   //neo4j.auth.basic("neo4j", "qHXXyaWYLwwyKqW0V6fYmKHwmJxCgHaM8Mjl7tn87C4")
-  
- 
- //environment dependant
+
+
+  //environment dependant
   NEO4J_URI as string,
   neo4j.auth.basic(NEO4J_USERNAME as string, NEO4J_PASSWORD as string)
- 
+
 );
 
 const neoSchema = new Neo4jGraphQL({

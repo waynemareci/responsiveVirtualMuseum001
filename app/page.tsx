@@ -4,9 +4,9 @@ import "./styles/mdb.min.css";
 import "./styles/snippet.css";
 import "./styles/wheel.css";
 
-import { useState } from "react";
+import React from "react";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 /*
 import {
@@ -43,15 +43,11 @@ import {
 import {
   MDBBtn,
   MDBContainer,
-  MDBFooter,
   MDBRow,
   MDBIcon,
   MDBCol,
-  MDBNavbar,
-  MDBTextArea,
 } from "mdb-react-ui-kit";
-import Select from "react-select";
-import Link from "next/link";
+import Select, { SingleValue } from "react-select";
 
 import Image from "next/image";
 import brandIcon from "../public/exploragraph3.png";
@@ -117,14 +113,11 @@ const GET_STYLES_QUERY = gql`
 `;
 
 export default function Home() {
-  const [selectedArtist, setSelectedArtist] = useState("");
-  const [selectedStyle, setSelectedStyle] = useState("");
-
-  var artistOptionsForRandom: Artist[] = [];
-  var styleOptionsForRandom: Style[] = [];
+  let artistOptionsForRandom: Artist[] = [];
+  let styleOptionsForRandom: Style[] = [];
 
   function RandomChoice() {
-    var randomBoolean = Math.random() < 0.5;
+    const randomBoolean = Math.random() < 0.5;
     if (randomBoolean) {
       const randomStyle = Math.floor(
         Math.random() * (styleOptionsForRandom.length + 1)
@@ -155,7 +148,7 @@ export default function Home() {
   }
 
   function ArtistSelect() {
-    let { loading, error, data, refetch } = useQuery(GET_ARTISTS_QUERY);
+    const { loading, error, data } = useQuery(GET_ARTISTS_QUERY);
     if (loading) return "Loading Artists data ...";
     if (error) return `Artists useQuery error: ${error.message}`;
     const artistOptions = data.artists.map((artist: Artist) => ({
@@ -163,6 +156,7 @@ export default function Home() {
       label: artist.name,
     }));
     artistOptionsForRandom = data.artists;
+
     return (
       <Select
         name={"artistSelect"}
@@ -170,15 +164,17 @@ export default function Home() {
         options={artistOptions}
         unstyled
         isSearchable={true}
-        onChange={(choice: any) =>
-          router.push(`/displayPage?artist=${choice.value}`)
-        }
-      />
+        onChange={(choice: SingleValue<{ value: string; label: string }>) => {
+          if (choice) {
+            router.push(`/displayPage?artist=${choice.value}`);
+          }
+        }}
+      ></Select>
     );
   }
 
   function StyleSelect() {
-    let { loading, error, data, refetch } = useQuery(GET_STYLES_QUERY);
+    const { loading, error, data } = useQuery(GET_STYLES_QUERY);
     if (loading) return "Loading Styles data ...";
     if (error) return `Styles useQuery error: ${error.message}`;
     const styleOptions = data.styles.map((style: Style) => ({
@@ -195,18 +191,27 @@ export default function Home() {
         unstyled
         options={styleOptions}
         isSearchable={true}
-        onChange={(choice: any) =>
-          router.push(`/displayPage?style=${choice.value}`)
-        }
+        onChange={(choice: SingleValue<{ value: string; label: string }>) => {
+          if (choice) {
+            router.push(`/displayPage?style=${choice.value}`);
+          }
+        }}
       ></Select>
     );
   }
 
   const router = useRouter();
+
   return (
     <>
       <header>
-        <div style={{borderTopWidth: "20px", borderImage: "linear-gradient(to right,#35507E,#000) 1" }} className="container fixed-top mt-0 pt-0">
+        <div
+          style={{
+            borderTopWidth: "20px",
+            borderImage: "linear-gradient(to right,#35507E,#000) 1",
+          }}
+          className="container fixed-top mt-0 pt-0"
+        >
           <MDBRow>
             <MDBCol>
               <h2 className="fw-bold text-center">
@@ -409,33 +414,33 @@ export default function Home() {
           </div>
         </MDBContainer>
       </main>
-      <MDBFooter style={{ position: "relative" }} className="text-center">
-        <MDBContainer className="py-4">
-          <MDBRow>
-            <MDBCol size="1">
+      <footer style={{ position: "relative" }} className="text-center">
+        <div className="container mb-3">
+          <div className="row ps-3">
+            <div className="col-2">
               <Image
-                style={{ marginBottom: "0px" }}
+                style={{ marginBottom: "0px"}}
                 unoptimized
                 alt="brandIcon"
                 width={50}
                 height={50}
                 src={brandIcon}
               />
-            </MDBCol>
-            <MDBCol size="5">
+            </div>
+            <div className="col-md-5 col-10">
               <h1
                 style={{ fontWeight: "bolder" }}
                 className={montserrat.className}
               >
                 exploragraph
               </h1>
-            </MDBCol>
-            <MDBCol size="5">
+            </div>
+            <div className="col-md-5 col-12">
               <MDBBtn
                 href="#!"
                 style={{ backgroundColor: "#3b5998" }}
                 floating
-                className="m-2"
+                className="my-2"
               >
                 <MDBIcon fab size="2x" icon="facebook-f" />
               </MDBBtn>
@@ -479,13 +484,13 @@ export default function Home() {
               >
                 <MDBIcon fab size="2x" icon="github" />
               </MDBBtn>
-            </MDBCol>
-          </MDBRow>
-        </MDBContainer>
-        <div className="text-center p-3" style={{ backgroundColor: "black" }}>
+            </div>
+          </div>
+        </div>
+        <div className="text-center" style={{ backgroundColor: "black" }}>
           © 2024 Wayne Mareci
         </div>
-      </MDBFooter>
+      </footer>
     </>
   );
 }

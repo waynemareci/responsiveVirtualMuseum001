@@ -36,46 +36,15 @@ import {
   MDBTypography,
 } from "mdb-react-ui-kit";
 */
-import {
-  MDBBtn,
-  MDBCarousel,
-  MDBContainer,
-  MDBFooter,
-  MDBIcon,
-} from "mdb-react-ui-kit";
-import Select from "react-select";
-import Link from "next/link";
+import { MDBFooter } from "mdb-react-ui-kit";
 import styled from "styled-components";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { useState, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
-import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 import { gql, useQuery } from "@apollo/client";
-import { Integer } from "neo4j-driver";
-
-interface Style {
-  name: string;
-}
-
-interface Artist {
-  name: string;
-}
-
-interface WorkOfArt {
-  fileName: String;
-  creationDate: Date;
-  width: number;
-  height: number;
-  title: String;
-  creator: Artist;
-  style: Style;
-}
-
-interface WorkOfArtData {
-  workOfArts: WorkOfArt[];
-}
 
 const WhiteLink = styled.a`
   color: white;
@@ -83,10 +52,6 @@ const WhiteLink = styled.a`
     color: white;
   }
 `;
-
-var savedData: WorkOfArtData;
-
-var imageUrl: Array<{ url: string }> = [];
 
 const WORKS_BY_ARTIST_QUERY = gql`
   query WorksByArtist($artist: String!) {
@@ -150,7 +115,7 @@ export default function DisplayPage() {
   const style = searchParams.get("style");
   const artist = searchParams.get("artist");
 
-  var styleOrArtist: string;
+  let styleOrArtist: string;
 
   if (searchParams.has("style")) {
     styleOrArtist = "style";
@@ -163,7 +128,7 @@ export default function DisplayPage() {
   const query =
     styleOrArtist === "artist" ? WORKS_BY_ARTIST_QUERY : WORKS_BY_STYLE_QUERY;
 
-  const { loading, error, data, refetch } = useQuery(query, {
+  const { loading, error, data } = useQuery(query, {
     variables: styleOrArtist === "artist" ? { artist } : { style },
   });
   if (loading) console.log("Loading Works data ...");
@@ -171,7 +136,7 @@ export default function DisplayPage() {
   //console.log("displaying " + styleOrArtist + "; data is " + JSON.stringify(data));
   //console.log("data.workOfArts is " + JSON.stringify(data?.workOfArts));
 
-  function yearToString(year: number): String {
+  function yearToString(year: number): string {
     if (year <= 0) {
       return year.toString().replace("-", "").concat(" BC");
     } else if (year > 2024) {
@@ -221,100 +186,124 @@ export default function DisplayPage() {
                 dotListClass="custom-dot-list-style"
                 itemClass="carousel-item-padding-40-px"
               >
-                {data.workOfArts.map((w: any, index: any) => {
-                  var bd = yearToString(
-                    new Date(w.creator[0].birthday).getFullYear()
-                  );
-                  var dd = yearToString(
-                    new Date(w.creator[0].deathday).getFullYear()
-                  );
-                  var cd = yearToString(new Date(w.creationDate).getFullYear());
+                {data.workOfArts.map(
+                  (
+                    w: {
+                      title: string;
+                      width: number;
+                      height: number;
+                      creator: {
+                        name: string;
+                        birthday: string;
+                        deathday: string;
+                      }[];
+                      creationDate: string;
+                      fileName: string;
+                      style: { name: string }[];
+                    },
+                    index: number
+                  ) => {
+                    const bd = yearToString(
+                      new Date(w.creator[0].birthday).getFullYear()
+                    );
+                    const dd = yearToString(
+                      new Date(w.creator[0].deathday).getFullYear()
+                    );
+                    const cd = yearToString(
+                      new Date(w.creationDate).getFullYear()
+                    );
 
-                  return (
-                    <div
-                      key={index}
-                      style={{ marginTop: "0", marginBottom: "0" }}
-                    >
-                      <h2 className="fw-bold text-center">{w.title}</h2>
-
-                      <h6 className="fw-bold text-center">
-                        {w.creationDate !== null ? (
-                          <span>
-                            Created in {cd} by {w.creator[0].name} ({bd} - {dd}){" "}
-                          </span>
-                        ) : (
-                          <span>
-                            Artist: {w.creator[0].name} ({bd} - {dd}) Creation
-                            date unknown
-                          </span>
-                        )}
-                      </h6>
-
+                    return (
                       <div
-                        style={{
-                          display: "flex",
-                          height: "75vh",
-                          position: "relative",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          marginBottom: "10px",
-                        }}
-                        className="slider"
                         key={index}
+                        style={{ marginTop: "0", marginBottom: "0" }}
                       >
-                        <Image
-                          unoptimized
-                          alt="image"
-                          //width={w.width}
-                          //height={w.height}
-                          sizes="100vw"
-                          style={{
-                            objectFit: "contain",
-                            //display: "flex",
-                            //margin: "auto",
-                            //maxWidth: '100%',
-                            //height: "auto",
-                            //width: "auto",
-                            //width: "100%",
-                          }}
-                          fill={true}
-                          src={`https://virtualmusem.s3.amazonaws.com/${w.fileName}.jpg`}
-                        />
-                      </div>
-                      <h6 className="fw-bold text-center">
-                        {styleOrArtist === "artist" ? (
-                          w.style.length > 2 ? (
+                        <h2 className="fw-bold text-center">{w.title}</h2>
+
+                        <h6 className="fw-bold text-center">
+                          {w.creationDate !== null ? (
                             <span>
-                              Styles:
-                              {w.style.map((style: any, index: any) => {
-                                if (index != w.style.length - 1)
-                                  return (
-                                    <span key={index}>&nbsp;{style.name},</span>
-                                  );
-                                else
-                                  return (
-                                    <span key={index}>
-                                      &nbsp;and &nbsp;{style.name}
-                                    </span>
-                                  );
-                              })}
+                              Created in {cd} by {w.creator[0].name} ({bd} -{" "}
+                              {dd}){" "}
                             </span>
-                          ) : w.style.length > 1 ? (
-                            <span>
-                              Styles: {w.style[0].name} and {w.style[1].name}{" "}
-                            </span>
-                          ) : w.style.length === 1 ? (
-                            <span>Style: {w.style[0].name}</span>
                           ) : (
-                            <span></span>
-                          )
-                        ) : (
-                          <span>Style: {style}</span>
-                        )}
-                      </h6>
-                    </div>
-                  );
-                })}
+                            <span>
+                              Artist: {w.creator[0].name} ({bd} - {dd}) Creation
+                              date unknown
+                            </span>
+                          )}
+                        </h6>
+
+                        <div
+                          style={{
+                            display: "flex",
+                            height: "75vh",
+                            position: "relative",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            marginBottom: "10px",
+                          }}
+                          className="slider"
+                          key={index}
+                        >
+                          <Image
+                            unoptimized
+                            alt="image"
+                            //width={w.width}
+                            //height={w.height}
+                            sizes="100vw"
+                            style={{
+                              objectFit: "contain",
+                              //display: "flex",
+                              //margin: "auto",
+                              //maxWidth: '100%',
+                              //height: "auto",
+                              //width: "auto",
+                              //width: "100%",
+                            }}
+                            fill={true}
+                            src={`https://virtualmusem.s3.amazonaws.com/${w.fileName}.jpg`}
+                          />
+                        </div>
+                        <h6 className="fw-bold text-center">
+                          {styleOrArtist === "artist" ? (
+                            w.style.length > 2 ? (
+                              <span>
+                                Styles:
+                                {w.style.map(
+                                  (style: { name: string }, index: number) => {
+                                    if (index != w.style.length - 1)
+                                      return (
+                                        <span key={index}>
+                                          &nbsp;{style.name},
+                                        </span>
+                                      );
+                                    else
+                                      return (
+                                        <span key={index}>
+                                          &nbsp;and &nbsp;{style.name}
+                                        </span>
+                                      );
+                                  }
+                                )}
+                              </span>
+                            ) : w.style.length > 1 ? (
+                              <span>
+                                Styles: {w.style[0].name} and {w.style[1].name}{" "}
+                              </span>
+                            ) : w.style.length === 1 ? (
+                              <span>Style: {w.style[0].name}</span>
+                            ) : (
+                              <span></span>
+                            )
+                          ) : (
+                            <span>Style: {style}</span>
+                          )}
+                        </h6>
+                      </div>
+                    );
+                  }
+                )}
               </Carousel>
             </div>
           </main>
@@ -324,9 +313,7 @@ export default function DisplayPage() {
           className="text-center"
         >
           <div className="text-center p-3" style={{ backgroundColor: "black" }}>
-            <Link href="/">
-              <WhiteLink>Back to Search page</WhiteLink>
-            </Link>
+            <WhiteLink href="/">Back to Search page</WhiteLink>
             <br></br>© 2024 Wayne Mareci
           </div>
         </MDBFooter>

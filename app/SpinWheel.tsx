@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface ISpinWheelProps {
   segments: ISegments[];
@@ -34,8 +34,8 @@ const SpinWheel: React.FC<ISpinWheelProps> = ({
   fontFamily = "Arial",
   //arrowLocation = "center",
   showTextOnSpin = true,
-  //isSpinSound = false,
-}: ISpinWheelProps) => {
+}: //isSpinSound = false,
+ISpinWheelProps) => {
   // Separate arrays without nullish values
   const segmentTextArray = segments
     .map((segment) => segment.segmentText)
@@ -46,21 +46,20 @@ const SpinWheel: React.FC<ISpinWheelProps> = ({
 
   const [isFinished, setFinished] = useState<boolean>(false);
   const [isStarted, setIsStarted] = useState<boolean>(false);
-  
+
   const currentSegment = "";
-  
-  let timerHandle: any = 0; 
+
+  let timerHandle: number | NodeJS.Timeout = 0;
   const timerDelay = segmentTextArray.length;
   let angleCurrent = 0;
   let angleDelta = 0;
-  
-  let canvasContext: any = null;
+
+  let canvasContext: CanvasRenderingContext2D | null = null;
   let maxSpeed = Math.PI / segmentTextArray.length;
   const upTime = segmentTextArray.length * upDuration;
   const downTime = segmentTextArray.length * downDuration;
   let spinStart = 0;
-  
-  let frames = 0;
+
   const centerX = size;
   const centerY = size;
 
@@ -69,7 +68,6 @@ const SpinWheel: React.FC<ISpinWheelProps> = ({
     setTimeout(() => {
       window.scrollTo(0, 1);
     }, 0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const wheelInit = () => {
@@ -101,14 +99,12 @@ const SpinWheel: React.FC<ISpinWheelProps> = ({
     setIsStarted(true);
     if (timerHandle === 0) {
       spinStart = new Date().getTime();
-      maxSpeed = Math.PI * 3 / segmentTextArray.length;
-      frames = 0;
+      maxSpeed = (Math.PI * 3) / segmentTextArray.length;
       timerHandle = setInterval(onTimerTick, timerDelay * 5);
     }
   };
 
   const onTimerTick = () => {
-    frames++;
     wheelDraw();
     const duration = new Date().getTime() - spinStart;
     let progress = 0;
@@ -142,22 +138,24 @@ const SpinWheel: React.FC<ISpinWheelProps> = ({
   const drawSegment = (key: number, lastAngle: number, angle: number) => {
     const ctx = canvasContext;
     const value = segmentTextArray[key];
-    ctx.save();
-    ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.arc(centerX, centerY, size, lastAngle, angle, false);
-    ctx.lineTo(centerX, centerY);
-    ctx.closePath();
-    ctx.fillStyle = segColorArray[key];
-    ctx.fill();
-    ctx.stroke();
-    ctx.save();
-    ctx.translate(centerX, centerY);
-    ctx.rotate((lastAngle + angle) / 2);
-    ctx.fillStyle = contrastColor;
-    ctx.font = "bold 1em " + fontFamily;
-    ctx.fillText(value.substring(0, 21), size / 2 + 20, 0);
-    ctx.restore();
+    if (ctx) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(centerX, centerY);
+      ctx.arc(centerX, centerY, size, lastAngle, angle, false);
+      ctx.lineTo(centerX, centerY);
+      ctx.closePath();
+      ctx.fillStyle = segColorArray[key] || primaryColor;
+      ctx.fill();
+      ctx.stroke();
+      ctx.save();
+      ctx.translate(centerX, centerY);
+      ctx.rotate((lastAngle + angle) / 2);
+      ctx.fillStyle = contrastColor;
+      ctx.font = "bold 1em " + fontFamily;
+      ctx.fillText(value.substring(0, 21), size / 2 + 20, 0);
+      ctx.restore();
+    }
   };
 
   const drawWheel = () => {
@@ -165,30 +163,32 @@ const SpinWheel: React.FC<ISpinWheelProps> = ({
     let lastAngle = angleCurrent;
     const len = segmentTextArray.length;
     const PI2 = Math.PI * 2;
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = primaryColor;
-    ctx.textBaseline = "middle";
-    ctx.textAlign = "center";
-    ctx.font = "1em " + fontFamily;
-    for (let i = 1; i <= len; i++) {
-      const angle = PI2 * (i / len) + angleCurrent;
-      drawSegment(i - 1, lastAngle, angle);
-      lastAngle = angle;
+    if (ctx) {
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = primaryColor;
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "center";
+      ctx.font = "1em " + fontFamily;
+      for (let i = 1; i <= len; i++) {
+        const angle = PI2 * (i / len) + angleCurrent;
+        drawSegment(i - 1, lastAngle, angle);
+        lastAngle = angle;
+      }
+
+      // Draw outer circle
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, size, 0, PI2, false);
+      ctx.closePath();
+
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = primaryColor;
+      ctx.stroke();
     }
-
-    // Draw outer circle
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, size, 0, PI2, false);
-    ctx.closePath();
-
-    ctx.lineWidth = 4;
-    ctx.strokeStyle = primaryColor;
-    ctx.stroke();
   };
 
   const clear = () => {
     const ctx = canvasContext;
-    ctx.clearRect(0, 0, size, size);
+    if (ctx) ctx.clearRect(0, 0, size, size);
   };
 
   return (
@@ -209,9 +209,7 @@ const SpinWheel: React.FC<ISpinWheelProps> = ({
             fontSize: "1.5em",
             fontFamily: fontFamily,
           }}
-        >
-
-        </div>
+        ></div>
       )}
     </div>
   );

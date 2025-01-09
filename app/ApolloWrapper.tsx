@@ -1,15 +1,13 @@
 "use client";
 
-import { createHttpLink, HttpLink, makeVar } from "@apollo/client";
+import { HttpLink, makeVar } from "@apollo/client";
 import {
   ApolloNextAppProvider,
   ApolloClient,
   InMemoryCache,
 } from "@apollo/experimental-nextjs-app-support";
-import { setContext } from "@apollo/client/link/context";
-import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
+
 import React, { useEffect, useState } from "react";
-import { stringify } from "querystring";
 
 export const starredVar = makeVar([]);
 
