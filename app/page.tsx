@@ -47,7 +47,7 @@ import {
   MDBIcon,
   MDBCol,
 } from "mdb-react-ui-kit";
-import Select, { SingleValue } from "react-select";
+import Select, { SingleValue, CSSObjectWithLabel } from "react-select";
 
 import Image from "next/image";
 import brandIcon from "../public/exploragraph3.png";
@@ -116,6 +116,17 @@ export default function Home() {
   let artistOptionsForRandom: Artist[] = [];
   let styleOptionsForRandom: Style[] = [];
 
+  const selectCustomStyles = {
+    option: (base: CSSObjectWithLabel) => ({
+      ...base,
+      cursor: "pointer",
+    }),
+    control: (base: CSSObjectWithLabel) => ({
+      ...base,
+      cursor: "pointer",
+    }),
+  };
+
   function RandomChoice() {
     const randomBoolean = Math.random() < 0.5;
     if (randomBoolean) {
@@ -159,16 +170,36 @@ export default function Home() {
 
     return (
       <Select
+        styles={selectCustomStyles}
         name={"artistSelect"}
         placeholder={"Search..."}
         options={artistOptions}
         unstyled
         isSearchable={true}
+        onBlur={() => {
+          document.getElementById("spinner")?.classList.remove("invisible");
+          document.getElementById("styleChoice")?.classList.remove("invisible");
+          document
+            .getElementById("timeAndPlaceChoice")
+            ?.classList.remove("invisible");
+        }}
+        onFocus={() => {
+          if (window.matchMedia("(min-width: 576px)").matches) {
+            document.getElementById("spinner")?.classList.add("invisible");
+            document.getElementById("styleChoice")?.classList.add("invisible");
+          } else {
+            document
+              .getElementById("timeAndPlaceChoice")
+              ?.classList.add("invisible");
+            document.getElementById("styleChoice")?.classList.add("invisible");
+          }
+        }}
         onChange={(choice: SingleValue<{ value: string; label: string }>) => {
           if (choice) {
             router.push(`/displayPage?artist=${choice.value}`);
           }
         }}
+        
       ></Select>
     );
   }
@@ -186,11 +217,29 @@ export default function Home() {
 
     return (
       <Select
+        styles={selectCustomStyles}
         name={"styleSelect"}
         placeholder={"Search..."}
         unstyled
         options={styleOptions}
         isSearchable={true}
+        onBlur={() => {
+          document.getElementById("spinner")?.classList.remove("invisible");
+          document.getElementById("styleChoice")?.classList.remove("invisible");
+          document
+            .getElementById("timeAndPlaceChoice")
+            ?.classList.remove("invisible");
+        }}
+        onFocus={() => {
+          if (window.matchMedia("(min-width: 576px)").matches) {
+            document.getElementById("spinner")?.classList.add("invisible");
+          } else {
+            document
+              .getElementById("timeAndPlaceChoice")
+
+              ?.classList.add("invisible");
+          }
+        }}
         onChange={(choice: SingleValue<{ value: string; label: string }>) => {
           if (choice) {
             router.push(`/displayPage?style=${choice.value}`);
@@ -289,12 +338,15 @@ export default function Home() {
 
         <MDBContainer className="pt-4 mt-20" style={{ zIndex: -1 }}>
           <div className="row g-0">
-            <div className="col-lg-6 col-md-12 mb-4 order-2 order-sm-1">
+            <div
+              id="timeAndPlaceChoice"
+              className="col-lg-6 col-md-12 mb-4 order-2 order-sm-1"
+            >
               {/* Card */}
               <div className="bg-glass shadow-4-strong h-75 mt-6">
                 {/* Card header */}
 
-                <div className="p-4">
+                <div id="timeAndPlaceChoice" className="p-4">
                   <div className="row align-items-center">
                     <div>
                       <h3 className="text-center mb-2">Time and Place</h3>
@@ -309,7 +361,10 @@ export default function Home() {
             </div>
 
             <div className="d-grid col-lg-6 mb-4 mb-lg-0 order-1 order-sm-2">
-              <div className="row ms-sm-3 g-0 mb-3 order-2 order-sm-1">
+              <div
+                id="artistChoice"
+                className="row ms-sm-3 g-0 mb-3 order-2 order-sm-1"
+              >
                 {/* Choose an artist */}
                 <div
                   style={{
@@ -337,7 +392,10 @@ export default function Home() {
                 </div>
                 {/* Card */}
               </div>
-              <div className="row g-0 mb-3 ms-sm-3 order-3 order-sm-2">
+              <div
+                id="styleChoice"
+                className="row g-0 mb-3 ms-sm-3 order-3 order-sm-2"
+              >
                 {/* Choose a style */}
                 <div
                   style={{
@@ -367,7 +425,10 @@ export default function Home() {
                 </div>
                 {/* Card */}
               </div>
-              <div className="row g-0 mt-sm-0 mt-2 ms-sm-3 mb-sm-4 mb-0 order-1 order-sm-3">
+              <div
+                id="spinner"
+                className="row g-0 mt-sm-0 mt-2 ms-sm-3 mb-sm-4 mb-0 order-1 order-sm-3"
+              >
                 {/* Spinner */}
                 <div
                   style={{
@@ -391,7 +452,7 @@ export default function Home() {
 
                   {/* Card body */}
                   <div
-                    className=""
+                    className="cursor-pointer"
                     style={{
                       display: "flex",
                       justifyContent: "center",
@@ -419,7 +480,7 @@ export default function Home() {
           <div className="row ps-3">
             <div className="col-2">
               <Image
-                style={{ marginBottom: "0px"}}
+                style={{ marginBottom: "0px" }}
                 unoptimized
                 alt="brandIcon"
                 width={50}
