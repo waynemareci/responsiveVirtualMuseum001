@@ -217,7 +217,7 @@ export default function DisplayPage() {
                         key={index}
                         style={{ marginTop: "0", marginBottom: "0" }}
                       >
-                        <h2 className="fw-bold text-center">{w.title}</h2>
+                        <h1 className="fw-bold text-center">{w.title}</h1>
 
                         <h6 className="fw-bold text-center">
                           {w.creationDate !== null ? (

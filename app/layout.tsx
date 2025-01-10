@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
@@ -20,6 +21,11 @@ const montserrat = Montserrat({
   subsets: ["latin"],
   display: "swap",
 });
+
+export const metadata: Metadata = {
+  description:
+    "Visit a virtual museum of the world's visual art! A simple interface allows you to explore 200,000 images from over 3,600 artists. A graph database is utilized to optimize search capabilities and discover unexpected connections between artists, styles, time periods and areas of origin.",
+};
 
 export default function RootLayout({
   children,
