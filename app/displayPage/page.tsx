@@ -139,27 +139,26 @@ export default function DisplayPage() {
   function yearToString(year: number): string {
     if (year <= 0) {
       return year.toString().replace("-", "").concat(" BC");
-    } else if (year > 2024) {
+    } else if (year > new Date().getFullYear()) {
       return "";
     } else return year.toString();
   }
-
-  /*
-  const [domLoaded, setDomLoaded] = useState(false);
-  
-  useEffect(() => {
-    setDomLoaded(true);
-  }, []);
-  if (!domLoaded) {
-
-    return <></>;
-  } else */ {
+  {
     return (
       <>
         {loading ? (
           <p>Loading . . .</p>
         ) : (
           <main style={{ position: "relative", top: "0px" }}>
+            {styleOrArtist === "artist" ? (
+              <title>
+                {"Visual art by " + artist + " in the Virtual Museum"}
+              </title>
+            ) : (
+              <title>
+                {"Visual art of the " + style + " style in the Virtual Museum"}
+              </title>
+            )}
             <div
               style={{ position: "relative" }}
               /*fluid*/
@@ -237,7 +236,7 @@ export default function DisplayPage() {
                         <div
                           style={{
                             display: "flex",
-                            height: "75vh",
+                            height: "70vh",
                             position: "relative",
                             alignItems: "center",
                             justifyContent: "center",
@@ -248,7 +247,7 @@ export default function DisplayPage() {
                         >
                           <Image
                             unoptimized
-                            alt="image"
+                            alt={w.title + " by " + w.creator[0].name}
                             //width={w.width}
                             //height={w.height}
                             sizes="100vw"
@@ -309,12 +308,18 @@ export default function DisplayPage() {
           </main>
         )}
         <MDBFooter
-          style={{ position: "relative", marginTop: "25px" }}
+          style={{
+            position: "relative",
+            marginBottom: "5px",
+            marginTop: "5px",
+          }}
           className="text-center"
         >
           <div className="text-center p-3" style={{ backgroundColor: "black" }}>
-            <WhiteLink href="/">Back to Search page</WhiteLink>
-            <br></br>© 2024 Wayne Mareci
+            <WhiteLink title="Virtual Museum Search Page" href="/">
+              Back to Search page
+            </WhiteLink>
+            <br></br>© {new Date().getFullYear()} Wayne Mareci
           </div>
         </MDBFooter>
       </>

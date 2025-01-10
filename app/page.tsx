@@ -111,7 +111,11 @@ const GET_STYLES_QUERY = gql`
     }
   }
 `;
-
+/*
+export const metadata: Metadata = {
+  title: "Virtual Visual Art Museum",
+}
+*/
 export default function Home() {
   let artistOptionsForRandom: Artist[] = [];
   let styleOptionsForRandom: Style[] = [];
@@ -267,6 +271,7 @@ export default function Home() {
   return (
     <>
       <header>
+        <title>{"Visual art in the Virtual Museum"}</title>
         <div
           style={{
             borderTopWidth: "20px",
@@ -308,6 +313,7 @@ export default function Home() {
         >
           <div className="sidenav-item mb-2">
             <a
+              title="Toggle slim"
               id="slim-toggler"
               className="sidenav-link d-flex justify-content-center border-bottom ripple-surface ripple-surface-light"
             >
@@ -317,31 +323,31 @@ export default function Home() {
 
           <ul className="sidenav-menu">
             <li className="sidenav-item">
-              <a className="sidenav-link">
+              <a title="Dashboard" className="sidenav-link">
                 <i className="fas fa-chart-area fa-fw me-3"></i>
                 <span data-mdb-slim="false">Website traffic</span>
               </a>
             </li>
             <li className="sidenav-item">
-              <a className="sidenav-link">
+              <a title="Analytics" className="sidenav-link">
                 <i className="fas fa-chart-line fa-fw me-3"></i>
                 <span data-mdb-slim="false">Analytics</span>
               </a>
             </li>
             <li className="sidenav-item">
-              <a className="sidenav-link">
+              <a title="SEO" className="sidenav-link">
                 <i className="fas fa-chart-pie fa-fw me-3"></i>
                 <span data-mdb-slim="false">SEO</span>
               </a>
             </li>
             <li className="sidenav-item">
-              <a className="sidenav-link">
+              <a title="Sales" className="sidenav-link">
                 <i className="fas fa-money-bill fa-fw me-3"></i>
                 <span data-mdb-slim="false">Sales</span>
               </a>
             </li>
             <li className="sidenav-item">
-              <a className="sidenav-link">
+              <a title="Users" className="sidenav-link">
                 <i className="fas fa-users fa-fw me-3"></i>
                 <span data-mdb-slim="false">Users</span>
               </a>
@@ -562,7 +568,7 @@ export default function Home() {
           </div>
         </div>
         <div className="text-center" style={{ backgroundColor: "black" }}>
-          © 2024 Wayne Mareci
+          © {new Date().getFullYear()} Wayne Mareci
         </div>
       </footer>
     </>

@@ -90,7 +90,7 @@ export default function Globe() {
           defaultValue={0}
           disableTooltip={true}
           min="-2000"
-          max="2024"
+          max={new Date().getFullYear()}
         />
       </div>
       <div
