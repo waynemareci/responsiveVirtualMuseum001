@@ -1,0 +1,124 @@
+html,
+body,
+header,
+.jarallax {
+  height: 100vh;
+}
+
+@media (min-width: 560px) and (max-width: 650px) {
+  header .jarallax h1 {
+    margin-bottom: 1.5rem !important;
+  }
+  header .jarallax h5 {
+    margin-bottom: 1.5rem !important;
+  }
+}
+
+.top-nav-collapse {
+  background-color: #3f51b5 !important;
+}
+.navbar:not(.top-nav-collapse) {
+  background: transparent !important;
+}
+@media (max-width: 768px) {
+  .navbar:not(.top-nav-collapse) {
+    background: #3f51b5 !important;
+  }
+}
+@media (min-width: 800px) and (max-width: 850px) {
+  .navbar:not(.top-nav-collapse) {
+    background: #3f51b5 !important;
+  }
+}
+h5 {
+  letter-spacing: 3px;
+}
+
+
+#home {
+  animation: home 100s ease-in-out infinite;
+  /*width: 98vw;
+  height: 100vw;*/
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+
+@keyframes home {
+  0% {
+    background-image: url("https://virtualmusem.s3.amazonaws.com/219191.jpg");
+  }
+  20% {
+    background-image: url("https://virtualmusem.s3.amazonaws.com/210558.jpg");
+  }
+  30% {
+    background-image: url("https://virtualmusem.s3.amazonaws.com/9223372032559861094.jpg");
+  }
+  40% {
+    background-image: url("https://virtualmusem.s3.amazonaws.com/9223372032559863774.jpg");
+  }
+  50% {
+    background-image: url("https://virtualmusem.s3.amazonaws.com/9223372032559840384.jpg");
+  }
+  60% {
+    background-image: url("https://virtualmusem.s3.amazonaws.com/9223372032559910892.jpg");
+  }
+  70% {
+    background-image: url("https://virtualmusem.s3.amazonaws.com/9223372032559872244.jpg");
+  }
+  80% {
+    background-image: url("https://virtualmusem.s3.amazonaws.com/225189.jpg");
+  }
+  90% {
+    background-image: url("https://virtualmusem.s3.amazonaws.com/9223372032559863774.jpg");
+  }
+  80% {
+    background-image: url("https://virtualmusem.s3.amazonaws.com/9223372032559840384.jpg");
+  }
+  100% {
+    background-image: url("https://virtualmusem.s3.amazonaws.com/219191.jpg");
+  }
+}
+
+@media screen and (min-width: 540px) {
+  .secondTagline:before {
+    content: " :: ";
+  }
+
+  .thirdTagline:before {
+    content: " :: ";
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .secondTagline:before {
+    content: "\a";
+    display: block
+  }
+
+  .thirdTagline:before {
+    content: "\a";
+    display: block
+  }
+}
+
+@media (min-width: 800px) and (max-width: 991px) {
+  .thirdTagline:before {
+    content: "\a";
+    display: block
+  }
+}
+
+ul {
+  text-align: left;
+  margin-left: 30px;
+  list-style-type: disc;
+}
+
+@media (max-width: 800px) {
+  .bioSlug {
+    margin-top: 20px;
+  }
+}
+
+.img-center {margin: 0 auto}

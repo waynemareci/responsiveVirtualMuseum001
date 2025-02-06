@@ -1,9 +1,7 @@
 "use client";
 
-import "../styles/mdb.min.css";
+//import "../styles/mdb.min.css";
 import "../styles/snippet.css";
-import "../styles/wheel.css";
-
 /*
 import {
   MDBCard,
@@ -38,7 +36,7 @@ import {
 */
 import { MDBFooter } from "mdb-react-ui-kit";
 import styled from "styled-components";
-import Carousel from "react-multi-carousel";
+//import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import React from "react";
 import Image from "next/image";
@@ -94,6 +92,7 @@ const WORKS_BY_STYLE_QUERY = gql`
 `;
 
 export default function DisplayPage() {
+  /*
   const carouselResponsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -108,6 +107,7 @@ export default function DisplayPage() {
       items: 1,
     },
   };
+*/
 
   const searchParams = useSearchParams();
   console.log("artist is " + searchParams.get("artist"));
@@ -143,48 +143,33 @@ export default function DisplayPage() {
       return "";
     } else return year.toString();
   }
-  {
-    return (
-      <>
-        {loading ? (
-          <p>Loading . . .</p>
-        ) : (
-          <main style={{ position: "relative", top: "0px" }}>
-            {styleOrArtist === "artist" ? (
-              <title>
-                {"Visual art by " + artist + " in the Virtual Museum"}
-              </title>
-            ) : (
-              <title>
-                {"Visual art of the " + style + " style in the Virtual Museum"}
-              </title>
-            )}
-            <div
-              style={{ position: "relative" }}
-              /*fluid*/
-              className="container fixed-top mt-4 mb-1"
-            >
-              <Carousel
-                className="h-100"
-                responsive={carouselResponsive}
-                swipeable={true}
-                draggable={false}
-                centerMode={false}
-                //showDots={true}
-                ssr={true} // means to render carousel on server-side.
-                infinite={true}
-                autoPlaySpeed={1000}
-                keyBoardControl={true}
-                customTransition="all .5"
-                transitionDuration={500}
-                containerClass="carousel-container"
-                removeArrowOnDeviceType={["mobile"]}
-                //autoPlay={this.props.deviceType !== "mobile" ? true : false}
-                //deviceType={this.props.deviceType}
 
-                dotListClass="custom-dot-list-style"
-                itemClass="carousel-item-padding-40-px"
-              >
+  return (
+    <>
+      {loading ? (
+        <p>Loading . . .</p>
+      ) : (
+        <main style={{ position: "relative", top: "0px" }}>
+          {styleOrArtist === "artist" ? (
+            <title>
+              {"Visual art by " + artist + " in the Virtual Museum"}
+            </title>
+          ) : (
+            <title>
+              {"Visual art of the " + style + " style in the Virtual Museum"}
+            </title>
+          )}
+          <div
+            style={{ position: "relative" }}
+            /*fluid*/
+            className="container fixed-top mt-4 mb-1"
+          >
+            <div
+              id="imageCarousel"
+              className="carousel slide"
+              data-ride="carousel"
+            >
+              <div className="carousel-inner">
                 {data.workOfArts.map(
                   (
                     w: {
@@ -216,6 +201,7 @@ export default function DisplayPage() {
                       <div
                         key={index}
                         style={{ marginTop: "0", marginBottom: "0" }}
+                        className={index === 0 ? "carousel-item active" : "carousel-item"}
                       >
                         <h1 className="fw-bold text-center">{w.title}</h1>
 
@@ -242,7 +228,6 @@ export default function DisplayPage() {
                             justifyContent: "center",
                             marginBottom: "10px",
                           }}
-                          className="slider"
                           key={index}
                         >
                           <Image
@@ -303,26 +288,51 @@ export default function DisplayPage() {
                     );
                   }
                 )}
-              </Carousel>
+
+              </div>
+              <button
+                className="carousel-control-prev"
+                type="button"
+                data-target="#imageCarousel"
+                data-slide="prev"
+              >
+                <span
+                  className="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span className="visually-hidden">Previous</span>
+              </button>
+              <button
+                className="carousel-control-next"
+                type="button"
+                data-target="#imageCarousel"
+                data-slide="next"
+              >
+                <span
+                  className="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span className="visually-hidden">Next</span>
+              </button>
             </div>
-          </main>
-        )}
-        <MDBFooter
-          style={{
-            position: "relative",
-            marginBottom: "5px",
-            marginTop: "5px",
-          }}
-          className="text-center"
-        >
-          <div className="text-center p-3" style={{ backgroundColor: "black" }}>
-            <WhiteLink title="Virtual Museum Search Page" href="/">
-              Back to Search page
-            </WhiteLink>
-            <br></br>© {new Date().getFullYear()} Wayne Mareci
           </div>
-        </MDBFooter>
-      </>
-    );
-  }
+        </main>
+      )}
+      <MDBFooter
+        style={{
+          position: "relative",
+          marginBottom: "5px",
+          marginTop: "5px",
+        }}
+        className="text-center"
+      >
+        <div className="text-center p-3" style={{ backgroundColor: "black" }}>
+          <WhiteLink title="Virtual Museum Search Page" href="/">
+            Back to Search page
+          </WhiteLink>
+          <br></br>© {new Date().getFullYear()} Wayne Mareci
+        </div>
+      </MDBFooter>
+    </>
+  );
 }

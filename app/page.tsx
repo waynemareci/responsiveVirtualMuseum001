@@ -1,6 +1,6 @@
 "use client";
 
-import "./styles/mdb.min.css";
+//import "./styles/mdb.min.css";
 import "./styles/snippet.css";
 import "./styles/wheel.css";
 
@@ -56,6 +56,8 @@ const montserrat = Montserrat({
   subsets: ["latin"],
   display: "swap",
 });
+
+//import Script from "next/script";
 
 //import dynamic from "next/dynamic";
 /*
@@ -265,6 +267,14 @@ export default function Home() {
       ></Select>
     );
   }
+  const toggleSidenav = () => {
+    const element = document.getElementById("sidenav-4");
+    if (element?.getAttribute("data-mdb-slim-collapsed") === "false") {
+      element?.setAttribute("data-mdb-slim-collapsed", "true");
+    } else {
+      element?.setAttribute("data-mdb-slim-collapsed", "false");
+    }
+  };
 
   const router = useRouter();
 
@@ -313,6 +323,7 @@ export default function Home() {
         >
           <div className="sidenav-item mb-2">
             <a
+              onClick={toggleSidenav}
               title="Toggle slim"
               id="slim-toggler"
               className="sidenav-link d-flex justify-content-center border-bottom ripple-surface ripple-surface-light"
@@ -323,23 +334,42 @@ export default function Home() {
 
           <ul className="sidenav-menu">
             <li className="sidenav-item">
-              <a title="Dashboard" className="sidenav-link">
-                <i className="fas fa-chart-area fa-fw me-3"></i>
-                <span data-mdb-slim="false">Website traffic</span>
+              <a
+                title="Technology"
+                className="sidenav-link"
+                href="/aboutPage#technology"
+              >
+                <i className="fas fa-gears fa-fw me-3"></i>
+                <span data-mdb-slim="false">Technology description</span>
               </a>
             </li>
+
             <li className="sidenav-item">
-              <a title="Analytics" className="sidenav-link">
-                <i className="fas fa-chart-line fa-fw me-3"></i>
-                <span data-mdb-slim="false">Analytics</span>
+              <a title="About" className="sidenav-link" href="/aboutPage">
+                <i className="fas fa-circle-info fa-fw me-3"></i>
+                <span data-mdb-slim="false">About us</span>
               </a>
             </li>
+
+            {/*}
             <li className="sidenav-item">
-              <a title="SEO" className="sidenav-link">
-                <i className="fas fa-chart-pie fa-fw me-3"></i>
-                <span data-mdb-slim="false">SEO</span>
+              <a title="About" className="sidenav-link" onClick={(e)=>{e.preventDefault();router.push(`/aboutPage/`)}}>
+                <i className="fas fa-circle-info fa-fw me-3"></i>
+                <span data-mdb-slim="false">About us</span>
               </a>
             </li>
+            */}
+            <li className="sidenav-item">
+              <a
+                title="Contact"
+                className="sidenav-link"
+                href="/aboutPage/#contact"
+              >
+                <i className="fas fa-address-card fa-fw me-3"></i>
+                <span data-mdb-slim="false">Contact us</span>
+              </a>
+            </li>
+            {/*
             <li className="sidenav-item">
               <a title="Sales" className="sidenav-link">
                 <i className="fas fa-money-bill fa-fw me-3"></i>
@@ -352,6 +382,7 @@ export default function Home() {
                 <span data-mdb-slim="false">Users</span>
               </a>
             </li>
+            */}
           </ul>
         </nav>
 
@@ -524,6 +555,7 @@ export default function Home() {
               >
                 <MDBIcon fab size="2x" icon="facebook-f" />
               </MDBBtn>
+              {/*
               <MDBBtn
                 href="#!"
                 style={{ backgroundColor: "black" }}
@@ -540,6 +572,7 @@ export default function Home() {
                   </svg>
                 </span>
               </MDBBtn>
+              */}
               <MDBBtn
                 href="#!"
                 style={{ backgroundColor: "#ac2bac" }}
@@ -571,6 +604,13 @@ export default function Home() {
           © {new Date().getFullYear()} Wayne Mareci
         </div>
       </footer>
+      {/*
+      <Script id="sidenavScript">
+        {
+          'const slimInstance = new mdb.Sidenav(document.getElementById("sidenav-4"));slimInstance.show();document.getElementById("slim-toggler").addEventListener("click", () => {slimInstance.toggleSlim();});'
+        }
+      </Script>
+      */}
     </>
   );
 }
