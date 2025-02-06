@@ -266,9 +266,9 @@ export default function AboutPage() {
                   <div className="col-md-6 float-left">
                     <div className="avatar mx-auto mb-md-0 mb-3">
                       <img
-                        src="waynebycraig.jpeg"
+                        src="WayneByCraig.jpeg"
                         className="z-depth-1"
-                        alt="First sample avatar image"
+                        alt="Wayne Mareci portrait by Craig Bagno"
                       />
                     </div>
                   </div>
