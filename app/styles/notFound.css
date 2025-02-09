@@ -1,0 +1,37 @@
+@media (min-width: 816px) {
+  body {
+    background-image: url("/virtualMuseum404.png");
+
+    .notFoundText {
+      position: absolute;
+      left: 525px;
+      top: 310px;
+      font-size: 1.5em;
+    }
+  }
+}
+
+@media (min-width: 451px) and (max-width: 815px) {
+  body {
+    background-image: url("/virtualMuseum404.png");
+  }
+  .notFoundText {
+    position: absolute;
+    font-size: 1.5em;
+    top: 500px;
+    left: 200px;
+  }
+}
+
+@media (max-width: 450px) {
+  body {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url("/virtualMuseum404SmallScreen.png");
+  }
+
+  .notFoundText {
+    font-size: 1.5em;
+    padding-top: 400px;
+  }
+}
